@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.adv160420029week4.R
+import com.example.adv160420029week4.viewmodel.DetailViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +28,7 @@ class StudentDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var viewModel: DetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,32 @@ class StudentDetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_student_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        var detailStudent = ""
+        if(arguments != null){
+            detailStudent = StudentDetailFragmentArgs.fromBundle(requireArguments()).detail
+        }
+        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+        viewModel.fetch(detailStudent)
+
+        val txtIDSL = view.findViewById<TextView>(R.id.txtIDSL)
+        val txtName = view.findViewById<TextView>(R.id.txtName)
+        val txtBod = view.findViewById<TextView>(R.id.txtBod)
+        val txtPhone = view.findViewById<TextView>(R.id.txtPhone)
+
+        observeViewModel(txtIDSL, txtName, txtBod, txtPhone)
+    }
+
+    fun observeViewModel(txtIDSL: TextView, txtNameSL: TextView, txtBod: TextView, txtPhone: TextView) {
+        viewModel.studentDD.observe(viewLifecycleOwner, Observer {
+            var studentList = it
+            txtIDSL.text = studentList.id
+            txtNameSL.text = studentList.name
+            txtBod.text = studentList.dob
+            txtPhone.text = studentList.phone
+        })
     }
 
     companion object {
