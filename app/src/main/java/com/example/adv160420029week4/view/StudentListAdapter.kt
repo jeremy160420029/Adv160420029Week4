@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adv160420029week4.R
 import com.example.adv160420029week4.model.Student
+import com.example.adv160420029week4.util.loadImage
 
 class StudentListAdapter (val studenList:ArrayList<Student>)
 :RecyclerView.Adapter<StudentListAdapter.StudentViewHolder>(){
@@ -26,6 +29,10 @@ class StudentListAdapter (val studenList:ArrayList<Student>)
         val txtIDSL = holder.view.findViewById<TextView>(R.id.txtIDSL)
         val txtNameSL = holder.view.findViewById<TextView>(R.id.txtNameSL)
         val btnDetail = holder.view.findViewById<Button>(R.id.btnDetail)
+
+        var imageView = holder.view.findViewById<ImageView>(R.id.imageView)
+        var progressBar = holder.view.findViewById<ProgressBar>(R.id.progressBar)
+        imageView.loadImage(studenList[position].photoUrl, progressBar)
 
         txtIDSL.text = studenList[position].id
         txtNameSL.text = studenList[position].name

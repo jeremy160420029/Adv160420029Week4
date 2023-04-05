@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adv160420029week4.R
+import com.example.adv160420029week4.util.loadImage
 import com.example.adv160420029week4.viewmodel.DetailViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -58,17 +60,21 @@ class StudentDetailFragment : Fragment() {
         val txtName = view.findViewById<TextView>(R.id.txtName)
         val txtBod = view.findViewById<TextView>(R.id.txtBod)
         val txtPhone = view.findViewById<TextView>(R.id.txtPhone)
+        var imageView = view.findViewById<ImageView>(R.id.imageView2)
+        var progressBar = view.findViewById<ProgressBar>(R.id.progressBar2)
 
-        observeViewModel(txtIDSL, txtName, txtBod, txtPhone)
+        observeViewModel(txtIDSL, txtName, txtBod, txtPhone, imageView, progressBar)
     }
 
-    fun observeViewModel(txtIDSL: TextView, txtNameSL: TextView, txtBod: TextView, txtPhone: TextView) {
-        viewModel.studentDD.observe(viewLifecycleOwner, Observer {
+    fun observeViewModel(txtIDSL: TextView, txtNameSL: TextView, txtBod: TextView, txtPhone: TextView, imageView: ImageView, progressBar: ProgressBar) {
+        viewModel.studentsDD.observe(viewLifecycleOwner, Observer {
             var studentList = it
             txtIDSL.text = studentList.id
             txtNameSL.text = studentList.name
             txtBod.text = studentList.bod
             txtPhone.text = studentList.phone
+
+            imageView.loadImage(studentList.photoUrl, progressBar)
         })
     }
 
