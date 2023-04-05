@@ -67,7 +67,7 @@ class StudentDetailFragment : Fragment() {
             var studentList = it
             txtIDSL.text = studentList.id
             txtNameSL.text = studentList.name
-            txtBod.text = studentList.dob
+            txtBod.text = studentList.bod
             txtPhone.text = studentList.phone
         })
     }
